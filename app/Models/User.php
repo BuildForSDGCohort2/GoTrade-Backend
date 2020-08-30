@@ -1,14 +1,14 @@
 <?php
-
-namespace App;
+namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use HasApiTokens,Notifiable;
 
     /**
      * The table associated with the model.
@@ -22,8 +22,22 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'display_name','first_name','last_name','mobile_number','date_of_bith', 'email', 'password',
-        'address','country_id','state_id','city_id','gender','photo_id','is_active','is_online','role',
+        'display_name',
+        'first_name',
+        'last_name',
+        'mobile_number',
+        'date_of_bith',
+        'email',
+        'password',
+        'address',
+        'country_id',
+        'state_id',
+        'city_id',
+        'gender',
+        'photo_id',
+        'is_active',
+        'is_online',
+        'role'
     ];
 
     /**
@@ -32,7 +46,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token'
     ];
 
     /**
@@ -41,6 +56,6 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
+        'email_verified_at' => 'datetime'
     ];
 }
