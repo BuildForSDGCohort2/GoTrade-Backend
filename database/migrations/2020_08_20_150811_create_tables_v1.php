@@ -47,7 +47,7 @@ class CreateTablesV1 extends Migration
             $table->string('mobile_number', 32)->unique();
             $table->date('date_of_bith')->nullable();
             $table->string('email')->unique();
-            $table->text('address');
+            $table->text('address')->nullable();
             $table->unsignedBigInteger('country_id')->nullable();
             $table->foreign('country_id')
                 ->references('id')
@@ -71,7 +71,7 @@ class CreateTablesV1 extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->boolean('is_active');
-            $table->boolean('is_online')->defaulf(0);
+            $table->boolean('is_online')->default(0);
             $table->enum('role', [
                 'admin',
                 'trader',

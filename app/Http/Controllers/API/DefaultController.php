@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Validator;
 
 class DefaultController extends Controller
 {
@@ -19,6 +20,7 @@ class DefaultController extends Controller
         return response()->json([
             'status' => 1,
             'message' => 'OK',
+            'errors' => null,
             'data' => [
                 'message' => 'Welcome to GoTrade API 0.0.2'
             ]
@@ -45,9 +47,10 @@ class DefaultController extends Controller
         return response()->json([
             'status' => 1,
             'message' => 'OK',
+            'errors' => null,
             'data' => [
                 'message' => 'Login was successful',
-                'token' => $user->createToken($request->device_name)->plainTextToken
+                'token' => $user->createToken('')->plainTextToken
             ]
         ]);
     }
@@ -69,12 +72,14 @@ class DefaultController extends Controller
             'mobile_number' => $request->input('mobile_number'),
             'email' => $request->input('email'),
             'password' => Hash::make($request->input('password')),
+            'is_active' => true,
             'role' => 'customer'
         ]);
 
         return response()->json([
             'status' => 1,
             'message' => 'OK',
+            'errors' => null,
             'data' => [
                 'message' => 'Registration was successful'
             ]
@@ -106,12 +111,13 @@ class DefaultController extends Controller
             'address' => $request->input('address'),
             'country_id' => $request->input('country_id'),
             'state_id' => $request->input('state_id'),
-            'city_id' => $request->input('city_id'),
+            'city_id' => $request->input('city_id')
         ]);
 
         return response()->json([
             'status' => 1,
             'message' => 'OK',
+            'errors' => null,
             'data' => [
                 'message' => 'Registration was successful'
             ]
