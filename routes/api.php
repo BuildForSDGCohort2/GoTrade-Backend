@@ -23,15 +23,15 @@ Route::prefix('/v1')->namespace('API')->group(function () {
     Route::get('/', [
         'uses' => 'DefaultController@index'
     ]);
-    
+
     Route::post('login', [
         'uses' => 'DefaultController@login'
     ]);
-    
+
     Route::post('register', [
         'uses' => 'DefaultController@register'
     ]);
-    
+
     Route::post('register_as_trader', [
         'uses' => 'DefaultController@registerAsTrader'
     ]);
@@ -40,5 +40,28 @@ Route::prefix('/v1')->namespace('API')->group(function () {
         Route::get('profile', [
             'uses' => 'DefaultController@profile'
         ]);
+
+        Route::prefix('/trader')->namespace('Trader')
+            ->group(function () {
+
+            Route::prefix('/products')->group(function () {
+                
+                Route::get('/', [
+                    'uses' => 'ProductController@index'
+                ]);
+
+                Route::post('/store', [
+                    'uses' => 'ProductController@store'
+                ]);
+
+                Route::patch('/update', [
+                    'uses' => 'ProductController@update'
+                ]);
+
+                Route::delete('/delete', [
+                    'uses' => 'ProductController@delete'
+                ]);
+            });
+        });
     });
 });
