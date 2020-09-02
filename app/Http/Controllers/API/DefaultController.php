@@ -51,7 +51,7 @@ class DefaultController extends Controller
             'errors' => null,
             'data' => [
                 'message' => 'Login was successful',
-                'token' => $user->createToken('')->plainTextToken
+                'token' => $user->createToken('go-trade-token')->plainTextToken
             ]
         ]);
     }
