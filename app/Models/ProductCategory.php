@@ -67,11 +67,13 @@ class ProductCategory extends Model
     /**
      * @throws \Exception
      */
-    public function edit(Request $request)
+    public function edit()
     {
-        $this->name = $request->input('name');
-        $this->created_by = Auth::user()->id;
-        $this->updated_by = Auth::user()->id;;
+        $postData = request()->except(['id']);
+        $userId = Auth::user()->id;
+        $this->name = $postData['name'];
+        $this->created_by = $userId;
+        $this->updated_by = $userId;
         $this->save();
     }
 

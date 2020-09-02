@@ -18,45 +18,50 @@ class ProductCategoryController extends Controller
      * Get category name by ID.
      *
      * @param $category
-     * @return string|null
+     * 
+     * @return \Illuminate\Http\Response
      */
     public static function getCategoryNameById($category)
     {
         $categoryName = ProductCategory::getCategoryNameById($category);
-        return response([ 'category' => new ProductCategoryResource($categoryName), 
-                            'message' => 'Retrieved successfully'
-                        ], 200);
+            return response([
+                'category' => new ProductCategoryResource($categoryName), 
+                'message' => 'Retrieved successfully'
+            ], 201);
     }
 
     /**
      * Add category.
      *
      * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     * @throws \Exception
+     * 
+     * @return \Illuminate\Http\Response
      */
     public function addCategory(Request $request)
     {
         $category = new ProductCategory();
-        $validators = Validator::make($request->all(), $category->rules());
+        $validator = Validator::make($request->all(), $category->rules());
 
-        if ($validators->fails()) {
-            return redirect()->back()->withErrors($validators)->withInput();
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation error:' .$validator->errors()
+            ], 500);
         }
 
         $category->edit();
 
         return response([ 'category' => new ProductCategoryResource($category), 
                             'message' => 'Product category created successfully'
-                        ], 200);
+                        ], 201);
     }
 
     /**
      * Update product category.
      *
      * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     * @throws \Exception
+     * 
+     * @return \Illuminate\Http\Response
      */
     public function updateProductCategory(Request $request)
     {
@@ -65,44 +70,86 @@ class ProductCategoryController extends Controller
         $category = ProductCategory::FindOrFail($id);
         $rules = $category->rules();
         $rules['name'] .= ',name,' . $category->id;
-        $validators = Validator::make($request->all(), $rules);
+        $validator = Validator::make($request->all(), $rules);
 
-        if ($validators->fails()) {
-            return redirect()->back()->withErrors($validators)->withInput();
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation error:' .$validator->errors()
+            ], 500);
         }
-        $category->edit();
-
-        return response([ 'category' => new ProductCategoryResource($category), 
-                            'message' => 'Product category updated successfully'
-                        ], 200);
+        if (!$category) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Category with id ' . $id . ' not found'
+            ], 404);
+        }
+        $user = Auth::user();
+        if ($user->role == \UserType::TRADER) {
+            $category->edit();
+                return response([ 
+                    'success' => true,
+                    'data' => new ProductCategoryResource($category->toArray()), 
+                    'message' => 'Product category updated successfully'
+                ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorize user. Product category could not be updated'
+            ], 500);
+        }
     }
 
     /**
      * Delete product category.
      *
      * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     * @throws \Exception
+     * @param $id
+     * 
+     * @return \Illuminate\Http\Response
      */
     public function deleteProductCategory($id, Request $request)
     {
         /** @var ProductCategory $category */
         $category = ProductCategory::get($id);
-        if ($category) {
+        $user = Auth::user();
+        if ($user->role == \UserType::TRADER) {
+            if ($category) {
 
-            if (!$category->checkIfAssigned()) {
-                $category->delete();
-                return response(['message' => 'Deleted']);
+                if (!$category->checkIfAssigned()) {
+                    if ($category->delete()) {
+                        return response()->json([
+                            'success' => true,
+                            'message' => 'Deleted'
+                        ], 200);
+                     } else {
+                        return response()->json([
+                            'success' => false,
+                            'message' => 'Category could not be deleted'
+                        ], 500);
+                    }
+                }
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Category is assigned, unable delete'
+                ], 200);
             }
-            return response(['message' => 'Category is assigned, unable delete']);
+            return response()->json([
+                'success' => false,
+                'message' => 'Category not found.'
+            ], 404);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorize user. Unable to delete category'
+            ], 500);
         }
-        return response(['message' => 'Category not found.']);
     }
 
     /**
      * Search Product category.
      *
-     * @return ProductCategory[]|\Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Http\Response
      */
     public static function search()
     {

@@ -16,12 +16,26 @@ use App\Http\Resources\UserResource;
 
 class UserController extends Controller
 {
- /**
+    /**
+     * Returns Authenticated User Details
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getUserdetails()
+    {
+        $user = User::getUserdetails();
+            return response([
+                'products' => new UserResource($user), 
+                'message' => 'Retrieved successfully'
+            ], 200);
+    }
+
+    /**
      * Edit user details
      *
      * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     * @throws \Exception
+     * 
+     * @return \Illuminate\Http\Response
      */
     public function editUserDetails(Request $request)
     {
@@ -37,6 +51,7 @@ class UserController extends Controller
             ],
             'mobile_number' => [
                 'required',
+                'numeric',
                 Rule::unique('user')->ignore(Auth::user()->id),
             ],
             'photo_id' => 'bail|mimes:jpeg,png,bmp,jpg|max:10000',

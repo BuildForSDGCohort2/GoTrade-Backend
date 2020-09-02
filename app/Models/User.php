@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Product;
 use Carbon\Carbon;
@@ -38,7 +39,7 @@ use Carbon\Carbon;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use HasApiTokens, Notifiable;
 
     /**
      * The table associated with the model.
@@ -50,12 +51,7 @@ class User extends Authenticatable
     /**
      * @var bool
      */
-    public $timestamps = true;
-
-    /**
-     * @var string
-     */
-    protected $dateFormat = 'U';
+    public $timestamps = true;  
 
     /**
      * The attributes that are mass assignable.
@@ -66,6 +62,8 @@ class User extends Authenticatable
         'display_name',
         'first_name',
         'last_name',
+        'email',
+        'password',
         'mobile_number',
         'date_of_bith',
         'address',
@@ -173,6 +171,20 @@ class User extends Authenticatable
     {
         return User::find($id);
     }
+    /**
+     * returns user(Revoke token).
+     *
+     *
+     * @return mixed
+     */
+    public static function revokeUserToken()
+    {
+        $user = Auth::user();
+        // Revoke token...
+        $user->tokens()->where('tokenable_id', $user->id)->delete();
+
+        return $user;
+    }
 
     /**
      * Add/update user.
@@ -214,4 +226,19 @@ class User extends Authenticatable
         $this->save();
     }
 
+    /**
+     * Returns Authenticated User Details
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getUserdetails()
+    {
+        $user = Auth::user();
+        if ($user) {
+            return $user->toArray();
+        }
+
+        return null;
+    }
+    
 }

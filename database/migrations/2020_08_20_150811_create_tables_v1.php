@@ -73,9 +73,9 @@ class CreateTablesV1 extends Migration
             $table->boolean('is_active');
             $table->boolean('is_online')->defaulf(0);
             $table->enum('role', [
-                'admin',
+                'customer',
                 'trader',
-                'customer'
+                'admin'
             ]);
             $table->rememberToken();
             $table->timestamps();

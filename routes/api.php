@@ -23,4 +23,7 @@ Route::prefix('/v1')->namespace('API')
       Route::get('/', [
         'uses' => 'DefaultController@index'
     ]);
+    Route::post('/login', 'AuthController@login');
+    Route::post('/register', 'AuthController@register');
+    Route::get('/logout', 'AuthController@logout');
 });

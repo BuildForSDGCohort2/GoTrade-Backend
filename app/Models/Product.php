@@ -91,11 +91,11 @@ class Product extends Model
     }
 
     /**
-     * Relation with user table to get user data.
+     * Relation with user table to get trader data.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user()
+    public function trader()
     {
         return $this->belongsTo(User::class, 'own_by', 'id');
     }
@@ -117,7 +117,7 @@ class Product extends Model
      */
     public function updateStatus($status)
     {
-        $this->is_active = (string)$status;
+        $this->is_active = $status;
         $this->save();
     }
 
@@ -130,20 +130,17 @@ class Product extends Model
             'name' => 'required|string|min:2|max:32',
             'sku' => 'required|string|max:32',
             'slug' => 'required|string|max:128',
-            'amount' => 'required',
-            'quantity' => 'required',
+            'amount' => 'required|integer',
+            'quantity' => 'required|integer',
             'short_description' => 'required|string|max:100',
             'long_description' => 'required|string|max:255',
-            'category_id' => 'required',
+            'category_id' => 'required|integer',
             'image' => 'nullable|image|dimensions:max_width=100,max_height=100|max:10|mimes:jpeg,png,bmp,jpg',
         ];
     }
 
     /**
      * Add|edit Product.
-     *
-     * @param $id
-     * @param  $userId
      *
      * @return Product|null
      */
@@ -186,8 +183,35 @@ class Product extends Model
         return null;
     }
 
+    /**
+     * Get product category count by Id.
+     *
+     * @param $id
+     * 
+     * @return mixed
+     */
     public static function getProductCountByCategoryId(int $id)
     {
         return Product::where('category_id',$id)->select('category_id')->count();
+    }
+
+    /**
+     * Get traders' product by traderId.
+     *
+     * @param $traderId
+     * 
+     * @return mixed
+     */
+    public static function getTraderProducts(int $traderId)
+    {
+        return Product::where(['own_by' => $traderId])->get();
+    }
+
+    /**
+     * @return Product[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public static function search()
+    {
+        return Product::select(['id', 'name'])->get();
     }
 }
