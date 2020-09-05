@@ -15,6 +15,7 @@ class User extends Authenticatable
      *
      * @var string
      */
+    protected $table = 'users';
 
     /**
      * The attributes that are mass assignable.
@@ -59,8 +60,28 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime'
     ];
     
+    /**
+     * @var
+     */
+    public $products;
+
+    /**
+     * @var
+     */
+    public $cartItem;
+
     public function products()
     {
-        return $this->hasMany('App\Models\Product', 'own_by');
+        return $this->hasMany('App\Models\Product', 'id', 'own_by');
+    }
+
+    /**
+     * Relation with cart_items table.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function cartItem()
+    {
+        return $this->hasMany('App\Models\CartItems', 'id', 'own_by');
     }
 }

@@ -21,4 +21,19 @@ class City extends Model
     protected $fillable = [
         'name','state_id'
     ];
+
+    /**
+     * @var
+     */
+    public $state;
+
+    /**
+     * Relation with states table.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function state()
+    {
+        return $this->belongsTo('App\Models\State', 'state_id', 'id');
+    }
 }

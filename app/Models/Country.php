@@ -21,4 +21,19 @@ class Country extends Model
     protected $fillable = [
         'name',
     ];
+
+     /**
+     * @var
+     */
+    public $state;
+
+    /**
+     * Relation with states table.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function state()
+    {
+        return $this->hasMany('App\Models\State', 'id', 'country_id');
+    }
 }

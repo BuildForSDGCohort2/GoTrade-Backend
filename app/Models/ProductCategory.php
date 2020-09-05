@@ -21,4 +21,19 @@ class ProductCategory extends Model
     protected $fillable = [
         'name','created_by','updated_by'
     ];
+
+    /**
+     * @var
+     */
+    public $products;
+
+    /**
+     * Relation with products table.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function products()
+    {
+        return $this->belongsToMany('App\Models\Product', 'id', 'category_id');
+    }
 }
