@@ -59,20 +59,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime'
     ];
-    
-    /**
-     * @var
-     */
-    public $products;
-
-    /**
-     * @var
-     */
-    public $cartItem;
 
     public function products()
     {
-        return $this->hasMany('App\Models\Product', 'id', 'own_by');
+        return $this->hasMany('App\Models\Product', 'own_by');
     }
 
     /**
@@ -82,6 +72,6 @@ class User extends Authenticatable
      */
     public function cartItem()
     {
-        return $this->hasMany('App\Models\CartItems', 'id', 'own_by');
+        return $this->hasMany('App\Models\CartItems', 'own_by');
     }
 }

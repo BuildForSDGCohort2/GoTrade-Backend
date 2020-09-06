@@ -23,11 +23,6 @@ class City extends Model
     ];
 
     /**
-     * @var
-     */
-    public $state;
-
-    /**
      * Relation with states table.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

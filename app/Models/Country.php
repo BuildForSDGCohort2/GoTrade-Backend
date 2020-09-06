@@ -22,17 +22,12 @@ class Country extends Model
         'name',
     ];
 
-     /**
-     * @var
-     */
-    public $state;
-
     /**
      * Relation with states table.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function state()
+    public function states()
     {
         return $this->hasMany('App\Models\State', 'id', 'country_id');
     }

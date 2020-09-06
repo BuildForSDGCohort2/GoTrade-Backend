@@ -4,16 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class CartItems
- *
- * @package App\Models
- * @property int $id
- * @property $amount
- * @property int $quantity
- * @property int $product_id
- * @property int $own_by
- */
 class CartItems extends Model
 {
     /**
@@ -28,12 +18,12 @@ class CartItems extends Model
      *
      * @var array
      */
-    protected $fillable = ['quantity'];
-
-    /**
-     * @var
-     */
-    public $user;
+    protected $fillable = [
+        'quantity',
+        'amount',
+        'product_id',
+        'own_by'
+    ];
 
      /**
      * Relation with user table.
@@ -42,7 +32,7 @@ class CartItems extends Model
      */
     public function owner()
     {
-        return $this->belongsTo('App\Models\User', 'own_by', 'id');
+        return $this->belongsTo('App\Models\User', 'own_by');
     }
 
 }

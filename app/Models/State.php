@@ -23,23 +23,13 @@ class State extends Model
     ];
 
     /**
-     * @var
-     */
-    public $country;
-
-    /**
-     * @var
-     */
-    public $city;
-
-    /**
      * Relation with countries table.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function country()
     {
-        return $this->belongsTo('App\Models\Country', 'country_id', 'id');
+        return $this->belongsTo('App\Models\Country', 'country_id');
     }
 
     /**
@@ -49,6 +39,6 @@ class State extends Model
      */
     public function city()
     {
-        return $this->hasMany('App\Models\City', 'id', 'state_id');
+        return $this->hasMany('App\Models\City', 'state_id');
     }
 }
