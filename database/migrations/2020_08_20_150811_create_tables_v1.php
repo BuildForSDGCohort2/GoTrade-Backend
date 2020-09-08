@@ -46,7 +46,7 @@ class CreateTablesV1 extends Migration
             $table->string('last_name', 32)->nullable();
             $table->string('mobile_number', 32)->unique();
             $table->date('date_of_bith')->nullable();
-            $table->string('email')->unique();
+            $table->string('email',128)->unique();
             $table->text('address')->nullable();
             $table->unsignedBigInteger('country_id')->nullable();
             $table->foreign('country_id')
@@ -82,7 +82,7 @@ class CreateTablesV1 extends Migration
         });
 
         Schema::create('password_resets', function (Blueprint $table) {
-            $table->string('email')->index();
+            $table->string('email',128)->index();
             $table->string('token');
             $table->timestamp('created_at')->nullable();
         });
