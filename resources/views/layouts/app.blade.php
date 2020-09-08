@@ -12,46 +12,46 @@
 
 <!-- Favicon -->
 <link rel="apple-touch-icon" sizes="57x57"
-	href="{{ asset('img/favicon/apple-icon-57x57.png') }}">
+	href="{{ secure_asset('img/favicon/apple-icon-57x57.png') }}">
 <link rel="apple-touch-icon" sizes="60x60"
-	href="{{ asset('img/favicon/apple-icon-60x60.png') }}">
+	href="{{ secure_asset('img/favicon/apple-icon-60x60.png') }}">
 <link rel="apple-touch-icon" sizes="72x72"
-	href="{{ asset('img/favicon/apple-icon-72x72.png') }}">
+	href="{{ secure_asset('img/favicon/apple-icon-72x72.png') }}">
 <link rel="apple-touch-icon" sizes="76x76"
-	href="{{ asset('img/favicon/apple-icon-76x76.png') }}">
+	href="{{ secure_asset('img/favicon/apple-icon-76x76.png') }}">
 <link rel="apple-touch-icon" sizes="114x114"
-	href="{{ asset('img/favicon/apple-icon-114x114.png') }}">
+	href="{{ secure_asset('img/favicon/apple-icon-114x114.png') }}">
 <link rel="apple-touch-icon" sizes="120x120"
-	href="{{ asset('img/favicon/apple-icon-120x120.png') }}">
+	href="{{ secure_asset('img/favicon/apple-icon-120x120.png') }}">
 <link rel="apple-touch-icon" sizes="144x144"
-	href="{{ asset('img/favicon/apple-icon-144x144.png') }}">
+	href="{{ secure_asset('img/favicon/apple-icon-144x144.png') }}">
 <link rel="apple-touch-icon" sizes="152x152"
-	href="{{ asset('img/favicon/apple-icon-152x152.png') }}">
+	href="{{ secure_asset('img/favicon/apple-icon-152x152.png') }}">
 <link rel="apple-touch-icon" sizes="180x180"
-	href="{{ asset('img/favicon/apple-icon-180x180.png') }}">
+	href="{{ secure_asset('img/favicon/apple-icon-180x180.png') }}">
 <link rel="icon" type="image/png" sizes="192x192"
-	href="{{ asset('img/favicon/android-icon-192x192.png') }}">
+	href="{{ secure_asset('img/favicon/android-icon-192x192.png') }}">
 <link rel="icon" type="image/png" sizes="32x32"
-	href="{{ asset('img/favicon/favicon-32x32.png') }}">
+	href="{{ secure_asset('img/favicon/favicon-32x32.png') }}">
 <link rel="icon" type="image/png" sizes="96x96"
-	href="{{ asset('img/favicon/favicon-96x96.png') }}">
+	href="{{ secure_asset('img/favicon/favicon-96x96.png') }}">
 <link rel="icon" type="image/png" sizes="16x16"
-	href="{{ asset('img/favicon/favicon-16x16.png') }}">
+	href="{{ secure_asset('img/favicon/favicon-16x16.png') }}">
 <link rel="manifest" href="/manifest.json">
 <meta name="msapplication-TileColor" content="#ffffff">
 <meta name="msapplication-TileImage"
-	content="{{ asset('img/favicon/ms-icon-144x144.png') }}">
+	content="{{ secure_asset('img/favicon/ms-icon-144x144.png') }}">
 <meta name="theme-color" content="#ffffff">
 
 <!-- Font Awesome -->
 <link rel="stylesheet"
-	href="{{ asset('theme/plugins/fontawesome-free/css/all.min.css') }}">
+	href="{{ secure_asset('theme/plugins/fontawesome-free/css/all.min.css') }}">
 <!-- Ionicons -->
 <link rel="stylesheet"
 	href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 	@yield('content_style')
 <!-- overlayScrollbars -->
-<link rel="stylesheet" href="{{ asset('theme/css/adminlte.min.css') }}">
+<link rel="stylesheet" href="{{ secure_asset('theme/css/adminlte.min.css') }}">
 <!-- Google Font: Source Sans Pro -->
 <link
 	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700"
@@ -104,7 +104,7 @@
 		<aside class="main-sidebar sidebar-dark-primary elevation-4">
 			<!-- Brand Logo -->
 			<a href="{{ route('dashboard') }}" class="brand-link bg-primary"> <img
-				src="{{ asset('theme/img/logo.png') }}" alt="Round GoTrade Logo"
+				src="{{ secure_asset('theme/img/logo.png') }}" alt="Round GoTrade Logo"
 				class="brand-image img-circle elevation-3" style="opacity: .8"> <span
 				class="brand-text font-weight-light">GoTrade</span>
 			</a>
@@ -201,13 +201,13 @@
 	<!-- ./wrapper -->
 
 	<!-- jQuery -->
-	<script src="{{ asset('theme/plugins/jquery/jquery.min.js') }}"></script>
+	<script src="{{ secure_asset('theme/plugins/jquery/jquery.min.js') }}"></script>
 	<!-- Bootstrap 4 -->
 	<script
-		src="{{ asset('theme/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+		src="{{ secure_asset('theme/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 		@yield('content_script')
 	<!-- AdminLTE App -->
-	<script src="{{ asset('theme/js/adminlte.min.js') }}"></script>
+	<script src="{{ secure_asset('theme/js/adminlte.min.js') }}"></script>
 	
 
 </body>
