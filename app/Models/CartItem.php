@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CartItems extends Model
+class CartItem extends Model
 {
     /**
      * The table associated with the model.
