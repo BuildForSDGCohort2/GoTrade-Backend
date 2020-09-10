@@ -4,14 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class City extends Model
+class CartItems extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'cities';
+    protected $table = 'cart_items';
 
     /**
      * The attributes that are mass assignable.
@@ -19,16 +19,20 @@ class City extends Model
      * @var array
      */
     protected $fillable = [
-        'name','state_id'
+        'quantity',
+        'amount',
+        'product_id',
+        'own_by'
     ];
 
-    /**
-     * Relation with states table.
+     /**
+     * Relation with user table.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function state()
+    public function owner()
     {
-        return $this->belongsTo('App\Models\State', 'state_id', 'id');
+        return $this->belongsTo('App\Models\User', 'own_by');
     }
+
 }
