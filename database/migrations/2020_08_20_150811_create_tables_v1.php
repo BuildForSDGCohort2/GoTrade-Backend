@@ -99,6 +99,7 @@ class CreateTablesV1 extends Migration
         Schema::create('product_categories', function (Blueprint $table) {
             $table->id();
             $table->string('name', 32)->unique();
+            $table->string('slug', 128)->unique();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->foreign('created_by')
                 ->references('id')
