@@ -9,6 +9,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
+use App\Services\CustomerService;
 
 class CustomerController extends Controller
 {
@@ -66,7 +67,7 @@ class CustomerController extends Controller
      */
     public function show(User $customer)
     {
-        $this->data['title'] = 'Profile';
+        $this->data['title'] = 'Customer';
 
         $this->data['customer'] = $customer;
         $this->data['countries'] = Country::all();
@@ -112,27 +113,20 @@ class CustomerController extends Controller
     {
         if ($request->has('activateBtn')) {
 
-            if ($customer->status == CustomerService::SUSPENDED) {
+            $customer->update([
+                'status' => CustomerService::ACTIVE,
+                'approved_by' => $request->user()->id
+            ]);
 
+            if ($customer->email_verified_at == null) {
                 $customer->update([
-                    'status' => CustomerService::ACTIVE,
-                    'approved_by' => $request->user()->id
+                    'email_verified_at' => date('Y-m-d')
                 ]);
-
-                if ($customer->email_verified_at == null) {
-                    $customer->update([
-                        'email_verified_at' => date('Y-m-d')
-                    ]);
-                }
-
-                return redirect()->route('customers.show', [
-                    'customer' => $customer->id
-                ])->with('success', 'Account activated successfully.!');
             }
 
             return redirect()->route('customers.show', [
                 'customer' => $customer->id
-            ])->with('error', 'Account not activated');
+            ])->with('success', 'Account activated successfully.!');
         }
 
         if ($request->has('suspendBtn')) {
