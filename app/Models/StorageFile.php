@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class StorageFiles extends Model
+class StorageFile extends Model
 {
     /**
      * @var string

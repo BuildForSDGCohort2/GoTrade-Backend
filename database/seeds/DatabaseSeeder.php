@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
-    
+
     /**
      * Seed the application's database.
      *
@@ -22,8 +22,41 @@ class DatabaseSeeder extends Seeder
                 'gender' => 'male',
                 'password' => Hash::make('Admin@123'),
                 'is_active' => 1,
-                'role' => 'admin',
-            ],
+                'role' => 'admin'
+            ]
         ]);
+
+        /*DB::table('product_categories')->insert([
+            [
+                'name' => 'Health & Beauty'
+            ],
+            [
+                'name' => 'Home & Office'
+            ],
+            [
+                'name' => 'Phone & Tablet'
+            ],
+            [
+                'name' => 'Computing'
+            ],
+            [
+                'name' => 'Electronics'
+            ],
+            [
+                'name' => 'Fashion'
+            ],
+            [
+                'name' => 'Baby Products'
+            ],
+            [
+                'name' => 'Gaming'
+            ],
+            [
+                'name' => 'Sport & Fitness'
+            ],
+            [
+                'name' => 'Automobile'
+            ]
+        ]);*/
     }
 }

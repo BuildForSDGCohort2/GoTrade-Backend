@@ -25,6 +25,7 @@ class Product extends Model
         'amount',
         'discount',
         'quantity',
+        'status',
         'short_description',
         'long_description',
         'category_id'

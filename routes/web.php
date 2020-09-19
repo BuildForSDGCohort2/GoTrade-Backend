@@ -37,7 +37,9 @@ Route::group([
         Route::post('/{customer}/update_status', 'CustomerController@updateStatus')->name('update_status');
     });
     Route::resource('/traders', 'TraderController');
+    Route::post('/products/{product}/update_status', 'ProductController@updateStatus')->name('products.update_status');
     Route::resource('/products', 'ProductController');
 });
 
 Route::get('get_profile_photo/{filename}/{width?}/{height?}', 'GuestController@getProfilePhoto')->name('get_profile_photo');
+Route::get('get_product_photo/{filename}/{width?}/{height?}', 'GuestController@getProductPhoto')->name('get_product_photo');

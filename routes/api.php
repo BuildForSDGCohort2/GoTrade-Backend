@@ -36,6 +36,14 @@ Route::prefix('/v1')->namespace('API')->group(function () {
         'uses' => 'DefaultController@registerAsTrader'
     ]);
 
+    Route::get('products', [
+        'uses' => 'ProductController@index'
+    ]);
+
+    Route::get('products_by_category/{slug}', [
+        'uses' => 'ProductController@byCategory'
+    ]);
+
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('profile', [
             'uses' => 'DefaultController@profile'
@@ -45,7 +53,7 @@ Route::prefix('/v1')->namespace('API')->group(function () {
             ->group(function () {
 
             Route::prefix('/products')->group(function () {
-                
+
                 Route::get('/', [
                     'uses' => 'ProductController@index'
                 ]);
@@ -60,6 +68,17 @@ Route::prefix('/v1')->namespace('API')->group(function () {
 
                 Route::delete('/delete', [
                     'uses' => 'ProductController@delete'
+                ]);
+            });
+
+            Route::prefix('/orders')->group(function () {
+
+                Route::get('/', [
+                    'uses' => 'OrderController@index'
+                ]);
+
+                Route::delete('/delete', [
+                    'uses' => 'OrderController@delete'
                 ]);
             });
         });
