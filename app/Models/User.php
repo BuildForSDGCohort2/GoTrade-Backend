@@ -74,4 +74,14 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\CartItems', 'own_by');
     }
+
+    /**
+     * Relation with order table.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function order()
+    {
+        return $this->hasMany('App\Models\Order', 'own_by');
+    }
 }
