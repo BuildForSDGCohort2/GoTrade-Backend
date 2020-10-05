@@ -117,6 +117,6 @@ class UserController extends Controller
         $userInstance->forceFill($postData);
         $userInstance->save();
 
-        return response(['message' => 'Request successful'], 200);
+        return true;
     }
 }

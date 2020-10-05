@@ -12,8 +12,6 @@ class CartItemController extends Controller
 {
     /**
      * Returns User Cart Item Count.
-     *
-     * @param $id
      * 
      * @return \Illuminate\Http\Response
      */

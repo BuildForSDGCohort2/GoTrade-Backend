@@ -83,7 +83,7 @@ class OrderController extends Controller
                 'errors' => null,
                 'order' => $order->toArray(),
                 'data' => [
-                    'message' => 'Order created successfully'
+                    'message' => 'Order deleted successfully'
                 ]
             ]);
         }
