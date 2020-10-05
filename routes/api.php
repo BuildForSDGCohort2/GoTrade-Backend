@@ -82,5 +82,42 @@ Route::prefix('/v1')->namespace('API')->group(function () {
                 ]);
             });
         });
+
+        Route::prefix('/user')->namespace('Customer')
+        ->group(function () {
+            Route::prefix('/cart')->group(function () {
+                Route::get('/count', [
+                    'uses' => 'CartItemController@cartCountByUserID'
+                ]);
+
+                Route::post('/add_to_cart', [
+                    'uses' => 'CartItemController@addToCart'
+                ]);
+
+                Route::patch('/update_cart', [
+                    'uses' => 'CartItemController@updateCartItem'
+                ]);
+
+                Route::delete('/remove_cart_item', [
+                    'uses' => 'CartItemController@removeCartItem'
+                ]);
+            });
+
+            Route::prefix('/order')->group(function () {
+                Route::get('/', [
+                    'uses' => 'OrderController@getOrderByUserId'
+                ]);
+
+                Route::post('/add_order', [
+                    'uses' => 'OrderController@addOrder'
+                ]);
+            });
+
+            Route::prefix('/account')->group(function () {
+                Route::patch('/edit', [
+                    'uses' => 'UserController@editUserDetails'
+                ]);
+            });
+        });
     });
 });

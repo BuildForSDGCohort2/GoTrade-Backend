@@ -17,9 +17,21 @@ class CartItemController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public static function cartCountByUserID($id)
+    public static function cartCountByUserID()
     {
-        $count= CartItem::where('own_by', $id)->count();
+        if (!Auth::user()) {
+            return response([
+                'message' => 'Unauthenticated user'
+            ], 500);
+        }else {
+            $id = Auth::user()->id;
+            $count= CartItem::where('own_by', $id)->count();            
+            return response()->json([
+                'status' => 1,
+                'message' => 'Ok',
+                'data' => $count
+            ], 200);
+        }
     }
     
     /**
@@ -44,22 +56,27 @@ class CartItemController extends Controller
             ], 500);
         }
 
-        $cart = $request->user()->cart()->create([
+        if (!Auth::user()) {
+            return response([
+                'message' => 'Unauthenticated user'
+            ], 500);
+        }else {
+            $cart = $request->user()->cart()->create([
             'amount' => $request->input('amount'),
             'quantity' => $request->input('quantity'),
             'product_id' => $request->input('product_id'),
             'own_by' => Auth::user()->id,
         ]);
-
-        return response()->json([
+            return response()->json([
             'status' => 1,
             'message' => 'OK',
             'errors' => null,
-            'order' => $cart->toArray(),
+            'cartItem' => $cart->toArray(),
             'data' => [
-                'message' => 'Order created successfully'
-            ]
-        ]);
+                'message' => 'Added to cart created successfully'
+                ]
+            ]);
+        }
     }
 
     /**
@@ -81,22 +98,59 @@ class CartItemController extends Controller
             ], 500);
         }
 
-        $userId = Auth::user()->id;
-        $quantity = $request->input('quantity');
-        $productId = $request->input('product_id');
-        $cart = CartItem::where('own_by', $userId)
-                        ->where('product_id', $productId)
-                        ->update(['quantity' => $quantity]);
+        if (!Auth::user()) {
+            return response([
+                'message' => 'Unauthenticated user'
+            ], 500);
+        } else {
+            $userId = Auth::user()->id;
+            $quantity = $request->input('quantity');
+            $productId = $request->input('product_id');
+            $cart = CartItem::where('own_by', $userId)
+                            ->where('product_id', $productId)
+                            ->update(['quantity' => $quantity]);
 
 
-        return response()->json([
-            'status' => 1,
-            'message' => 'OK',
-            'errors' => null,
-            'order' => $cart->toArray(),
-            'data' => [
-                'message' => 'Order created successfully'
-            ]
-        ]);
+            return response()->json([
+                'status' => 1,
+                'message' => 'OK',
+                'errors' => null,
+                'cartItem' => $cart->toArray(),
+                'data' => [
+                    'message' => 'Cart updated successfully'
+                ]
+            ]);
+        }
+    }
+
+    /**
+     *Remove Cart Item.
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public static function removeCartItem(Request $request)
+    {
+
+        if (!Auth::user()) {
+            return response([
+                'message' => 'Unauthenticated user'
+            ], 500);
+        } else {
+            if (Auth::user()->id == Auth::user()->cart()->own_by) {
+                $cart = CartItem::find($request->input('id'));
+                $cart->delete();
+    
+                return response()->json([
+                    'status' => 1,
+                    'message' => 'OK',
+                    'errors' => null,
+                    'data' => [
+                        'message' => 'Product removed from cart successfully'
+                    ]
+                ]);
+            }
+        }
     }
 }

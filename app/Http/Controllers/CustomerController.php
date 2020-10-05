@@ -195,7 +195,7 @@ class CustomerController extends Controller
 
         if ($request->hasFile('photo_file')) {
             if ($request->file('photo_file')->isValid()) {
-                $result = $this->doUpload($request->file('photo_file'), "account/photograph", md5($customer->id));
+                $result = self::doUpload($request->file('photo_file'), "account/photograph", md5($customer->id));
                 if (! $result) {
                     return redirect()->route('profile')->with('error', 'Photo upload not successful');
                 }
@@ -207,7 +207,7 @@ class CustomerController extends Controller
         ])->with('success', 'Photo updated successfully');
     }
 
-    private function doUpload($file, $destination, $filename)
+    public static function doUpload($file, $destination, $filename)
     {
         try {
             $path = $file->storeAs($destination, $filename);

@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\API\Customer;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
@@ -14,23 +14,29 @@ class OrderController extends Controller
     /**
      * Returns array of orders by user ID.
      *
-     * @param $own_by
      * @return \Illuminate\Http\Response
      */
-    public function getOrderByUserId($own_by)
+    public function getOrderByUserId()
     {
-        $order = Order::where('own_by', $own_by)
-                                ->orderBy('created_at', 'DESC')
-                                ->get();
-        return response()->json([
-            'status' => 1,
-            'message' => 'OK',
-            'errors' => null,
-            'users' => $order->toArray(),
-            'data' => [
-                'message' => 'Retrieved successfully'
-            ]
-        ]);
+        if (!Auth::user()) {
+            return response([
+                'message' => 'Unauthenticated user'
+            ], 500);
+        } else {
+            $userId = Auth::user()->id;
+            $order = Order::where('own_by', $userId)
+                                    ->orderBy('created_at', 'DESC')
+                                    ->get();
+            return response()->json([
+                'status' => 1,
+                'message' => 'OK',
+                'errors' => null,
+                'order' => $order->toArray(),
+                'data' => [
+                    'message' => 'Retrieved successfully'
+                ]
+            ]);
+        }
     }
 
     /**
@@ -55,56 +61,32 @@ class OrderController extends Controller
                 'message' => 'Validation error:' .$validator->errors()
             ], 500);
         }
-
-        $order = $request->user()->order()->create([
-            'adress' => $request->input('adress'),
-            'order_no' => (string) Str::uuid(),
-            'state_id' => $request->input('state_id'),
-            'city_id' => $request->input('city_id'),
-            'country_id' => Auth::user()->country_id,
-            'ip_address' => $request->ip(),
-            'status' => 1,
-        ]);
-
-        return response()->json([
-            'status' => 1,
-            'message' => 'OK',
-            'errors' => null,
-            'order' => $order->toArray(),
-            'data' => [
-                'message' => 'Order created successfully'
-            ]
-        ]);
-    }
-
-    /**
-     * Delete Order.
-     *
-     * @param Request $request
-     * 
-     * @return \Illuminate\Http\Response
-     */
-    public function deleteOrder(Request $request)
-    {
-        $user = Auth::user();
-        if ($user) {
-            $order = Order::find($request->input('id'));
-
-            $order->delete();
+        if (!Auth::user()) {
+            return response([
+                'message' => 'Unauthenticated user'
+            ], 500);
+        } else {
+            $order = $request->user()->order()->create([
+                'address' => $request->input('adress'),
+                'order_no' => (string) Str::uuid(),
+                'state_id' => $request->input('state_id'),
+                'city_id' => $request->input('city_id'),
+                'country_id' => Auth::user()->country_id,
+                'ip_address' => $request->ip(),
+                'own_by' => Auth::user()->id,
+                'status' => 1,
+            ]);
 
             return response()->json([
                 'status' => 1,
                 'message' => 'OK',
                 'errors' => null,
+                'order' => $order->toArray(),
                 'data' => [
-                    'message' => 'Order deleted successfully'
+                    'message' => 'Order created successfully'
                 ]
             ]);
-        } else {
-            return response([
-                'message' => 'Unauthenticated user.'
-            ], 500);
         }
-        
     }
+
 }
